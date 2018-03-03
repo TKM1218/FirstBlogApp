@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   get 'blogapps' => 'blogapps#index'
-  get 'sign_up' => 'registrations#new'
+  get 'tweets/new' => 'tweets#new'
 
 
 
