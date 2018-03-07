@@ -51,3 +51,6 @@ gem 'sprockets', '2.11.0'
 
 gem 'devise'
 
+gem 'kaminari'
+
+gem 'pry-rails'
