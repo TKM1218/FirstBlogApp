@@ -6,7 +6,17 @@ Rails.application.routes.draw do
   #get 'tweets/:id' => 'tweets#show'
   resources :tweets do
     resources :comments
+    resources :likes, only: [:create, :destroy]
+    #resources :tags
+
+    #post :tag, on: :user
+    #delete :tag, on: :user
   end
+  #get 'tweets/:id/likes.id' => 'tweets#like'
+  get 'tweets/:id/destroy' => 'tweets#destroy'
+  #resources :tag, only: [:index, :show]
+
+
 
 
 

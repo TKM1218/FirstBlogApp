@@ -54,3 +54,9 @@ gem 'devise'
 gem 'kaminari'
 
 gem 'pry-rails'
+
+#sgem 'acts-as-taggable-on', '~>2.1.0'
+
+group :production do
+  gem 'rails_12factor'
+end

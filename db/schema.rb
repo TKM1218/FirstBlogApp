@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180307110637) do
+ActiveRecord::Schema.define(version: 20180324085934) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -21,13 +21,63 @@ ActiveRecord::Schema.define(version: 20180307110637) do
     t.datetime "updated_at",               null: false
   end
 
-  create_table "tweets", force: :cascade do |t|
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "name",       limit: 255
-    t.text     "text",       limit: 65535
-    t.text     "image",      limit: 65535
+  create_table "likes", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
+    t.integer  "tweet_id",   limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "taggings", force: :cascade do |t|
+    t.integer  "tag_id",        limit: 4
+    t.integer  "taggable_id",   limit: 4
+    t.string   "taggable_type", limit: 255
+    t.integer  "tagger_id",     limit: 4
+    t.string   "tagger_type",   limit: 255
+    t.string   "context",       limit: 128
+    t.datetime "created_at"
+  end
+
+  add_index "taggings", ["context"], name: "index_taggings_on_context", using: :btree
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy", using: :btree
+  add_index "taggings", ["taggable_id"], name: "index_taggings_on_taggable_id", using: :btree
+  add_index "taggings", ["taggable_type"], name: "index_taggings_on_taggable_type", using: :btree
+  add_index "taggings", ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type", using: :btree
+  add_index "taggings", ["tagger_id"], name: "index_taggings_on_tagger_id", using: :btree
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "value",      limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "tags", ["value"], name: "index_tags_on_value", unique: true, using: :btree
+
+  create_table "tweet_tag_links", force: :cascade do |t|
+    t.integer  "tweet_id",   limit: 4, null: false
+    t.integer  "tag_id",     limit: 4, null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "tweet_tag_links", ["tweet_id", "tag_id"], name: "index_tweet_tag_links_on_tweet_id_and_tag_id", unique: true, using: :btree
+
+  create_table "tweets", force: :cascade do |t|
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.string   "name",        limit: 255
+    t.text     "text",        limit: 65535
+    t.text     "image",       limit: 65535
+    t.integer  "user_id",     limit: 4
+    t.integer  "likes_count", limit: 4
   end
 
   create_table "users", force: :cascade do |t|
