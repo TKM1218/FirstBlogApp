@@ -5,4 +5,10 @@ class UsersController < ApplicationController
     @tweets = user.tweets.page(params[:page]).per(5).order("created_at DESC")
     @likes = Like.where(micropost_id: params[:micropost_id])
   end
+
+  private
+    def user_params
+      params.require(:user).permit(:id)
+    end
+
 end

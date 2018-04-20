@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   #get 'tweets/:id/likes.id' => 'tweets#like'
   get 'tweets/:id/destroy' => 'tweets#destroy'
   #resources :tag, only: [:index, :show]
+  resources :users
 
 
 
